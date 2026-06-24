@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insight - 深度内容，专业洞见</title>
+  <link rel="stylesheet" href="src/variables.css" />
+  <link rel="stylesheet" href="src/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+</head>
+<body>
+<nav class="nav">
+  <span class="nav-logo" onclick="showPage('home')"><i class="ti ti-book-2" aria-hidden="true"></i>Insight</span>
+  <div class="nav-links">
+    <button class="nav-link" onclick="showPage('home')">内容</button>
+    <button class="nav-link" onclick="showPage('pricing')">定价</button>
+  </div>
+  <div class="nav-actions">
+    <div class="member-chip" id="member-chip"><i class="ti ti-star" aria-hidden="true"></i>会员</div>
+    <button class="btn-ghost-pill" onclick="showPage('pricing')" id="nav-upgrade">升级会员</button>
+    <button class="btn-pill" onclick="openModal()">免费注册</button>
+  </div>
+</nav>
+
+<div class="modal-overlay hidden" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    <div class="modal-step active" id="step-plan">
+      <h2>选择订阅方案</h2>
+      <p class="modal-sub">解锁全站内容，随时取消，7天退款保障</p>
+      <div id="modal-plans"></div>
+      <button class="btn-pill btn-full" onclick="goToPayment()">继续支付</button>
+      <p class="modal-note">安全支付 · 随时取消 · 不强制续费</p>
+    </div>
+    <div class="modal-step" id="step-payment">
+      <h2>填写支付信息</h2>
+      <p class="modal-sub">256-bit SSL 加密，安全可靠</p>
+      <div class="summary-box" id="pay-summary"></div>
+      <div class="pay-row">
+        <span class="pay-chip">VISA</span><span class="pay-chip">Master</span>
+        <span class="pay-chip">Alipay</span><span class="pay-chip">WeChat</span>
+      </div>
+      <div class="form-grp"><label class="form-lbl">持卡人姓名</label><input class="form-inp" type="text" placeholder="张三" id="inp-name" /></div>
+      <div class="form-grp"><label class="form-lbl">卡号</label><input class="form-inp" type="text" placeholder="1234 5678 9012 3456" id="inp-card" maxlength="19" oninput="fmtCard(this)" /></div>
+      <div class="form-2col">
+        <div class="form-grp"><label class="form-lbl">有效期</label><input class="form-inp" type="text" placeholder="MM / YY" maxlength="7" /></div>
+        <div class="form-grp"><label class="form-lbl">CVV</label><input class="form-inp" type="text" placeholder="123" maxlength="4" /></div>
+      </div>
+      <div class="ssl-note"><i class="ti ti-lock" aria-hidden="true"></i>我们不存储你的完整卡号</div>
+      <div class="modal-btns">
+        <button class="btn-ghost-pill" onclick="goToStep('step-plan')">← 返回</button>
+        <button class="btn-pill btn-flex" onclick="goToSuccess()">确认支付</button>
+      </div>
+    </div>
+    <div class="modal-step" id="step-success" style="text-align:center;">
+      <div class="success-ring"><i class="ti ti-check"></i></div>
+      <h2>订阅成功！</h2>
+      <p class="modal-sub">欢迎加入，全站会员内容已解锁</p>
+      <ul class="perks">
+        <li><i class="ti ti-infinity" aria-hidden="true"></i>无限访问全部付费内容</li>
+        <li><i class="ti ti-download" aria-hidden="true"></i>离线下载完整报告</li>
+        <li><i class="ti ti-bell" aria-hidden="true"></i>新内容第一时间推送</li>
+        <li><i class="ti ti-headset" aria-hidden="true"></i>专属会员客服支持</li>
+      </ul>
+      <button class="btn-pill btn-full" onclick="activateMember()">开始探索 →</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-eyebrow"><i class="ti ti-bolt" aria-hidden="true"></i>每周更新 · 专业内容</div>
+      <h1>深度内容<br><em>专业洞见</em></h1>
+      <p class="hero-sub">行业报告、实操教程与独家数据分析。免费内容开放阅读，会员解锁全站精选。</p>
+      <div class="hero-cta">
+        <button class="btn-pill btn-pill-lg" onclick="openModal()">免费注册</button>
+        <button class="btn-ghost-pill btn-ghost-pill-lg" onclick="showPage('pricing')">查看定价</button>
+      </div>
+      <p class="hero-note">已有 12,000+ 位专业读者 · 7天退款保障</p>
+    </div>
+    <div class="feature-row">
+      <div class="fc c-violet"><div><div class="fc-eyebrow">每周精选</div><div class="fc-title">行业报告</div></div><div class="fc-icon">📊</div></div>
+      <div class="fc c-cyan"><div><div class="fc-eyebrow">手把手</div><div class="fc-title">实操教程</div></div><div class="fc-icon">🛠</div></div>
+      <div class="fc c-pink"><div><div class="fc-eyebrow">独家数据</div><div class="fc-title">数据分析</div></div><div class="fc-icon">📈</div></div>
+      <div class="fc c-peach"><div><div class="fc-eyebrow">资深作者</div><div class="fc-title">深度观点</div></div><div class="fc-icon">💡</div></div>
+    </div>
+    <p class="section-eyebrow">所有内容</p>
+    <div class="filter-row">
+      <button class="ftag active" onclick="filterBy('all',this)">全部</button>
+      <button class="ftag" onclick="filterBy('报告',this)">行业报告</button>
+      <button class="ftag" onclick="filterBy('教程',this)">实操教程</button>
+      <button class="ftag" onclick="filterBy('数据',this)">数据分析</button>
+      <button class="ftag" onclick="filterBy('观点',this)">深度观点</button>
+    </div>
+    <div class="cards" id="cards-grid"></div>
+  </div>
+
+  <div class="page" id="page-article">
+    <button class="back-btn" onclick="showPage('home')"><i class="ti ti-arrow-left" aria-hidden="true"></i>返回内容列表</button>
+    <div id="article-slot"></div>
+  </div>
+
+  <div class="page" id="page-pricing">
+    <div class="pricing-hero"><h1>选择适合你的方案</h1><p>全站付费内容，一个订阅全部解锁</p></div>
+    <div class="toggle-row">
+      <div class="toggle-wrap">
+        <button class="tog active" onclick="setBilling('monthly',this)">按月</button>
+        <button class="tog" onclick="setBilling('yearly',this)">按年</button>
+      </div>
+      <span class="save-pill">年付省 40%</span>
+    </div>
+    <div class="plans-row" id="plans-row"></div>
+    <p class="pricing-note">✓ 7天无理由退款 · ✓ 随时取消 · ✓ 到期前提醒续费</p>
+    <div class="faq-wrap">
+      <h2 class="faq-title">常见问题</h2>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">付费后可以立即访问内容吗？<i class="ti ti-chevron-down"></i></button><div class="faq-a">支付成功后即刻生效，无需等待审核，全站付费内容立即解锁。</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">如何取消订阅？<i class="ti ti-chevron-down"></i></button><div class="faq-a">在账户设置 → 订阅管理中一键取消，当前计费周期结束前权益依然有效。</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">支持哪些支付方式？<i class="ti ti-chevron-down"></i></button><div class="faq-a">支持微信支付、支付宝、VISA / Mastercard 信用卡及借记卡，全程 SSL 加密。</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">年付和月付有什么区别？<i class="ti ti-chevron-down"></i></button><div class="faq-a">功能完全相同，年付折算单月更低，省 40%。可随时在设置中切换方案。</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">团队版有折扣吗？<i class="ti ti-chevron-down"></i></button><div class="faq-a">5人以上团队享8折，20人以上联系我们获取专属报价和发票支持。</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="src/data.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
